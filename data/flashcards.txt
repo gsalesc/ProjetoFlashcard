@@ -1,0 +1,60 @@
+-
+codigo;1
+pergunta;Qual país ganhou mais copas do mundo?
+imagemPergunta;./images/flashcards/brasilPergunta.png
+descricao;Brasil
+imagemDescricao;./images/flashcards/brasilBandeira.png
+-
+codigo;2
+pergunta;Onde foi realizada a primeira olimpiada?
+imagemPergunta;./images/flashcards/greciaPergunta.png
+descricao;Grécia
+imagemDescricao;./images/flashcards/greciaBandeira.png
+-
+codigo;3
+pergunta;Onde fica Tokyo?
+imagemPergunta;./images/flashcards/japaoPergunta.png
+descricao;Japão
+imagemDescricao;./images/flashcards/japaoBandeira.png
+-
+codigo;4
+pergunta;Onde foi realizada a primeira copa do mundo?
+imagemPergunta;./images/flashcards/uruguaiPergunta.png
+descricao;Uruguai
+imagemDescricao;./images/flashcards/uruguaiBandeira.png
+-
+codigo;5
+pergunta;A qual país pertencia o maior avião do mundo?
+imagemPergunta;./images/flashcards/ucraniaPergunta.png
+descricao;Ucrânia
+imagemDescricao;./images/flashcards/ucraniaBandeira.png
+-
+codigo;6
+pergunta;Onde fica Berlin?
+imagemPergunta;./images/flashcards/alemanhaPergunta.png
+descricao;Alemanha
+imagemDescricao;./images/flashcards/alemanhaBandeira.png
+-
+codigo;7
+pergunta;Onde nasceu Lionel Messi?
+imagemPergunta;./images/flashcards/argentinaPergunta.png
+descricao;Argentina
+imagemDescricao;./images/flashcards/argentinaBandeira.png
+-
+codigo;8
+pergunta;Qual o maior país do mundo?
+imagemPergunta;./images/flashcards/russiaPergunta.png
+descricao;Rússia
+imagemDescricao;./images/flashcards/russiaBandeira.png
+-
+codigo;9
+pergunta;Onde fica a Cordilheira dos Andes?
+imagemPergunta;./images/flashcards/chilePergunta.png
+descricao;Chile
+imagemDescricao;./images/flashcards/chileBandeira.png
+-
+codigo;10
+pergunta;Onde serão as Olimpiadas de 2024?
+imagemPergunta;./images/flashcards/francaPergunta.png
+descricao;França
+imagemDescricao;./images/flashcards/francaBandeira.png
