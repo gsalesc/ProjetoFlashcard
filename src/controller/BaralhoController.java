@@ -16,6 +16,11 @@ public class BaralhoController {
 		carregarBaralho();
 	}
 	
+	
+	/**
+	* Carrega o baralho
+	*/
+	
 	public void carregarBaralho() {
 		LeituraArquivo arquivo = new LeituraArquivo();
 		FlashcardController fc = new FlashcardController();
@@ -23,6 +28,11 @@ public class BaralhoController {
 		List<String> conteudo = arquivo.lerConteudoArquivo(FlashcardConstants.CAMINHO_FLASHCARDS);
 		this.getBaralho().setCartas(fc.separarFlashcards(conteudo));
 	}
+	
+	/**
+	* Sorteia um flashcard do baralho
+	* @return      Retorna um flashcard do baralho
+	*/
 	
 	public Flashcard sortear() {
 		Flashcard sorteado;

@@ -82,7 +82,7 @@ public class JogoForm extends JFrame {
 		caixa1.setLayout(new BorderLayout());
 		construirCaixa(caixa1, 1);
 		localCartas = new JPanel();
-		preencherCaixa(localCartas);
+		preencherCaixa(localCartas, 1);
 		definirBordas(caixa1);
 		caixa1.add(localCartas);
 		principal.add(caixa1);
@@ -143,36 +143,34 @@ public class JogoForm extends JFrame {
 		inferior.add(mostrarAcertos);
 	}
 	
-	private void preencherCaixa(JPanel local) {
+	private void preencherCaixa(JPanel local, int caixa) {
 		definirLayout(local);
 		//int caixas = FlashcardConstants.TOTAL_CAIXAS;
 		
-		int caixas = 1;
-		for(int k = 0; k < caixas; k++) {
-			CaixaController cc = new CaixaController(k+1);
-			List<String> cartas = cc.getCaixa().getCodigoCartas();
+		CaixaController cc = new CaixaController(caixa);
+		List<String> cartas = cc.getCaixa().getCodigoCartas();
 			
-			for(int i = 0; i < FlashcardConstants.MAX_CARTAS; i++) {
-				if(i < cartas.size()) {
-					String cod = cartas.get(i);
-					JPanel panel = new JPanel();
-					panel.setBackground(Color.ORANGE);
-					
-					LineBorder borda = new LineBorder(Color.DARK_GRAY, 3);
-					panel.setBorder(borda);
-					
-					Customizacao.escreverNumeroCarta(panel, Integer.valueOf(cod));
-					carregarEventoCarta(panel);
-					local.add(panel);
-					
-				}
-				else {
-					JPanel panel = new JPanel();
-					panel.setBackground(Color.DARK_GRAY);
-					local.add(panel);
-				}
+		for(int i = 0; i < FlashcardConstants.MAX_CARTAS; i++) {
+			if(i < cartas.size()) {
+				String cod = cartas.get(i);
+				JPanel panel = new JPanel();
+				panel.setBackground(Color.ORANGE);
+				
+				LineBorder borda = new LineBorder(Color.DARK_GRAY, 3);
+				panel.setBorder(borda);
+				
+				Customizacao.escreverNumeroCarta(panel, Integer.valueOf(cod));
+				carregarEventoCarta(panel);
+				local.add(panel);
+				
+			}
+			else {
+				JPanel panel = new JPanel();
+				panel.setBackground(Color.DARK_GRAY);
+				local.add(panel);
 			}
 		}
+		
 	}
 	
 	private void definirBordas(JPanel panel) {
@@ -276,11 +274,12 @@ public class JogoForm extends JFrame {
 		CaixaController cc = new CaixaController(opcaoCombo+1);
 		List<String> cartas = cc.getCaixa().getCodigoCartas();
 		
-		for(int i = 0; i < cartas.size(); i++) {
-			Flashcard carta = fc.buscarCartaCodigo(cartas.get(i));
-			FlashcardJogoForm fjf = new FlashcardJogoForm(carta, LadoCarta.VERSO, this);
+		if(FlashcardJogoForm.isOpened == false) {
+			Flashcard carta = fc.buscarCartaCodigo(cartas.get(0));
+			FlashcardJogoForm fjf = new FlashcardJogoForm(cartas, carta, LadoCarta.VERSO, this);
 			fjf.setVisible(true);
 		}
+		
 	}
 	
 	private JFrame janelaJogo() {

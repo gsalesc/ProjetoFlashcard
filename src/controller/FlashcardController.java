@@ -12,6 +12,13 @@ import util.LeituraArquivo;
 
 public class FlashcardController {
 
+	/**
+	* Separa os flashcards de acordo com a estrutura do arquivo de persistência 
+	*
+	* @param  conteudo Lista de todas as linhas do arquivo de persistência das cartas
+	* @return Uma lista com todos os flashcards
+	*/
+	
 	public List<Flashcard> separarFlashcards(List<String> conteudo) {
 		ArrayList<Flashcard> flashcards = new ArrayList<Flashcard>();
 		
@@ -53,7 +60,15 @@ public class FlashcardController {
 		return flashcards;
 	}
 	
-
+	/**
+	* Adiciona as informações de um flashcard no arquivo de persistência 
+	*
+	* @param  pergunta Pergunta do flashcard
+	* @param  imagemPergunta Caminho da imagem referente à pergunta
+	* @param  descricao Descricao do flashcard
+	* @param  imagemDescricao Caminho da imagem referente à descrição
+	*/
+	
 	public void adicionarFlashcard(String pergunta, String imagemPergunta, String descricao, String imagemDescricao) {
 		LeituraArquivo leitura = new LeituraArquivo();
 		EscritaArquivo escrita = new EscritaArquivo();

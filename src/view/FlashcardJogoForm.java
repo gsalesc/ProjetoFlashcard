@@ -1,9 +1,9 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import controller.FlashcardController;
 import model.Flashcard;
 import util.Customizacao;
 import util.Imagem;
@@ -28,28 +29,56 @@ public class FlashcardJogoForm extends JFrame{
 	JPanel frente, verso;
 	LadoCarta lado;
 	Flashcard atual;
-	Component pai;
-	int cartas;
-	int cartaAtual;
+	JFrame pai;
+	List<String> codigoCartas;
+	int numeroCartas;
+	int indexCartaAtual;
 	
 	public FlashcardJogoForm() {
 		iniciarComponentes();
 	}
 	
 	public FlashcardJogoForm(Flashcard atual, LadoCarta lado) {
-		iniciarComponentes();
 		setAtual(atual);
 		setLado(lado);
+		iniciarComponentes();
 		carregarEventos();
 		carregarFrenteVerso();
 		carregarCarta();
 	}
 	
-	public FlashcardJogoForm(Flashcard atual, LadoCarta lado, Component pai) {
-		iniciarComponentes();
+	public FlashcardJogoForm(Flashcard atual, LadoCarta lado, JFrame pai) {
 		setLado(lado);
 		setPai(pai);
 		setAtual(atual);
+		iniciarComponentes();
+		carregarEventos();
+		carregarFrenteVerso();
+		carregarCarta();
+	}
+	
+	public FlashcardJogoForm(List<String> codCartas, Flashcard atual, LadoCarta lado, JFrame pai) {
+		setLado(lado);
+		setPai(pai);
+		setAtual(atual);
+		setCodigoCartas(codCartas);
+		setNumeroCartas(codCartas.size());
+		setIndexCartaAtual(1);
+		iniciarComponentes();
+		carregarEventos();
+		carregarFrenteVerso();
+		carregarCarta();
+
+	}
+	
+	public FlashcardJogoForm(List<String> codCartas, Flashcard atual, LadoCarta lado, JFrame pai, int prox) {
+		setLado(lado);
+		setPai(pai);
+		setAtual(atual);
+		setCodigoCartas(codCartas);
+		setNumeroCartas(codCartas.size());
+		setIndexCartaAtual(prox);
+		iniciarComponentes();
 		carregarEventos();
 		carregarFrenteVerso();
 		carregarCarta();
@@ -70,20 +99,26 @@ public class FlashcardJogoForm extends JFrame{
 		inferior = new JPanel();
 		this.add(inferior, BorderLayout.SOUTH);
 		
-		lembrou = new JLabel("Lembrou?");
-		//inferior.add(lembrou);
-		
 		virar = new JButton("Virar");
 		Customizacao.mudarHandCursorBotao(virar);
-		inferior.add(virar);
 		
-		/*sim = new JButton("Sim");
+		lembrou = new JLabel("Lembrou?");
+		
+		sim = new JButton("Sim");
 		Customizacao.mudarHandCursorBotao(sim);
-		inferior.add(sim);
 		
 		nao = new JButton("Não");
 		Customizacao.mudarHandCursorBotao(nao);
-		inferior.add(nao);*/
+		
+		if(lado == LadoCarta.FRENTE) {
+			inferior.add(lembrou);
+			inferior.add(sim);
+			inferior.add(nao);
+			inferior.add(virar);
+		}
+		else {
+			inferior.add(virar);
+		}
 	}
 
 	private void carregarFrenteVerso() {
@@ -108,9 +143,6 @@ public class FlashcardJogoForm extends JFrame{
 	}
 	
 	private void carregarCarta() {
-		//LineBorder borda = new LineBorder(Color.DARK_GRAY);
-		//carta.setBorder(borda);
-		
 		if(lado == LadoCarta.FRENTE) {
 			this.carta.add(frente);
 		}
@@ -126,20 +158,56 @@ public class FlashcardJogoForm extends JFrame{
 				virarCarta();
 			}
 		});
+		
+		sim.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//moverCarta
+				//contarAcerto
+				irParaProximaCarta();
+			}
+		});
+		
+		nao.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				irParaProximaCarta();
+			}
+		});
 	}
 	
 	private void virarCarta() {
 		FlashcardJogoForm novoForm = null;
 		
 		if(lado == LadoCarta.FRENTE) {
-			novoForm = new FlashcardJogoForm(atual, LadoCarta.VERSO, this.getPai());
+			novoForm = new FlashcardJogoForm(getCodigoCartas(), getAtual(), LadoCarta.VERSO, this.getPai(), getIndexCartaAtual());
 		}
 		else if(lado == LadoCarta.VERSO) {
-			novoForm = new FlashcardJogoForm(atual, LadoCarta.FRENTE, this.getPai());
+			novoForm = new FlashcardJogoForm(getCodigoCartas(), getAtual(), LadoCarta.FRENTE, this.getPai(), getIndexCartaAtual());
 		}
 		
-		this.setVisible(false);
+		this.setVisible(false);	
 		novoForm.setVisible(true);
+	}
+	
+	
+	private void irParaProximaCarta() {
+		if(getIndexCartaAtual()+1 < getNumeroCartas()) {
+			FlashcardController fc = new FlashcardController();
+			
+			int prox = getIndexCartaAtual()+1;
+			String proximoCodigo = getCodigoCartas().get(prox);
+			
+			Flashcard proxima = fc.buscarCartaCodigo(proximoCodigo);
+			FlashcardJogoForm novoForm = new FlashcardJogoForm(codigoCartas, proxima, LadoCarta.VERSO, this.getPai(), prox);
+			
+			this.setVisible(false);
+			novoForm.setVisible(true);
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Fim das cartas dessa caixa!");
+			this.setVisible(false);
+		}
 	}
 	
 	public Flashcard getAtual() {
@@ -158,11 +226,39 @@ public class FlashcardJogoForm extends JFrame{
 		this.lado = lado;
 	}
 
-	public Component getPai() {
+	public JFrame getPai() {
 		return pai;
 	}
 
-	public void setPai(Component pai) {
+	public void setPai(JFrame pai) {
 		this.pai = pai;
+	}
+
+	public int getNumeroCartas() {
+		return numeroCartas;
+	}
+
+	public void setNumeroCartas(int numeroCartas) {
+		this.numeroCartas = numeroCartas;
+	}
+	
+	public JFrame retornaJanela() {
+		return this;
+	}
+
+	public int getIndexCartaAtual() {
+		return indexCartaAtual;
+	}
+
+	public void setIndexCartaAtual(int cartaAtual) {
+		this.indexCartaAtual = cartaAtual;
+	}
+
+	public List<String> getCodigoCartas() {
+		return codigoCartas;
+	}
+
+	public void setCodigoCartas(List<String> codigoCartas) {
+		this.codigoCartas = codigoCartas;
 	}
 }
