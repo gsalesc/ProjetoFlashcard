@@ -54,7 +54,7 @@ descricao;Chile
 imagemDescricao;./images/flashcards/chileBandeira.png
 -
 codigo;10
-pergunta;Onde serão as Olimpiadas de 2024?
+pergunta;Onde vão ser as Olimpiadas de 2024?
 imagemPergunta;./images/flashcards/francaPergunta.png
 descricao;França
 imagemDescricao;./images/flashcards/francaBandeira.png
